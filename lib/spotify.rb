@@ -1,0 +1,1 @@
+require 'lib/spotify/playlistgen_client'

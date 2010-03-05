@@ -1,0 +1,90 @@
+<div style='font-family:Arial,Helvetica,sans-serif'>
+  <h1 style='margin-bottom:0px;font-size:2.4em;letter-spacing:-2px;text-transform:lowercase'>SpotLastSong</h1>
+  <h2 style='margin-top:0px;font-family:Georgia,"Times New Roman",Times,serif;font-size:13px;font-style:italic'>Create Spotify playlists from your Last.fm tracks or Songkick profile</h2>
+
+  <div>
+
+  <div style="float:right">
+
+    <% if @lastfm_tracks and @lastfm_tracks.any? %>
+        <h2>Lastfm Tracks</h2>
+        <ul>
+        <% @lastfm_tracks.each do |t| %>
+          <li><%= link_to t["name"],  t["url"] %> by <%= t["artist"]["name"] %></li>
+        <% end %>
+        </ul>
+    <% end %>
+
+    <% if @spotify_playlists and @spotify_playlists.any? %>
+      <h2>Spotify Playlist</h2>
+      <% @spotify_playlists.each do |playlist| %>
+        <h4><%= playlist.name %></h4>
+        <ul>
+          <% playlist.tracks.each do |t| %>
+            <li><%= t.title %> by <%= t.artistName %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div style="margin-top: 50px; width: 600px;">
+
+  <form method="post" action="/spotlastsong">
+    <div style="width:500px;margin-bottom:50px">
+      <div style="float:right; width: 300px; height:50px">
+        <label for="songkick_username">username</label>
+        <input type="text" name="songkick_username" id="songkick_username" value="<%= params[:songkick_username] %>"/>
+        <br>
+      </div>
+      <img src="/images/songkick.png" alt="Songkick"/>
+    </div>
+
+    <div style="clear:both"></div>
+
+    <div style="width:500px;margin-bottom:50px;height: 150px;">
+      <div style="float:right; width: 300px; height: 150px;">
+        <label for="lastfm_username">username</label>
+        <input type="text" name="lastfm_username" value="<%= params[:lastfm_username] %>" id="lastfm_username">
+        <br>
+
+        <input type="checkbox" name="loved" value="loved" id="loved" <%= params[:loved] ? "checked" : "" %>><label for="loved">Loved tracks</label><br>
+        <input type="checkbox" name="recent" value="recent"  id="recent"  <%= params[:recent] ? "checked" : "" %>><label for="recent">Recent tracks</label><br>
+        <input type="checkbox" name="seven_days" value="seven_days" id="seven_days" <%= params[:seven_days] ? "checked" : "" %>><label for="seven_days">Last 7 days</label><br>
+        <input type="checkbox" name="three_months" value="three_months" id="three_months" <%= params[:three_months] ? "checked" : "" %>><label for="three_months">Last 3 months</label><br>
+        <input type="checkbox" name="six_months" value="six_months" id="six_months" <%= params[:six_months] ? "checked" : "" %>><label for="six_months">Last 6 months</label><br>
+        <input type="checkbox" name="twelve_months" value="twelve_months" id="twelve_months" <%= params[:twelve_months] ? "checked" : "" %>><label for="twelve_months">Last 12 months</label><br>
+      </div>
+
+      <img src="/images/lastfm_red.gif" alt="Last.fm"/>
+    </div>
+
+    <div style="clear:both"></div>
+
+    <div style="width:500px;">
+      <div style="float:right; width: 300px">
+        <label for="spotify_username">username</label>
+        <input id="spotify_username" name="spotify_username" value="" type="text">
+        <br>
+        <label for="spotify_password">password</label>
+        <input name="spotify_password" id="spotify_password" value="" type="password">
+      </div>
+
+      <img src="/images/spotify-logo-96x96-pos-tagline.png" alt="Spotify"/>
+    </div>
+
+    <div style="clear:both"></div>
+
+    <div style="margin-top:30px;text-align:right">
+      <input type="submit" value="create my playlist!"/>
+    </div>
+
+  </form>
+
+  </div>
+
+
+  </div>
+
+</div>
+
